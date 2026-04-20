@@ -12,15 +12,19 @@ public class ProfileDao {
     private final ConcurrentHashMap<Long, Profile> storage;
     private final AtomicLong idStorage;
 
+    public ProfileDao() {
+        this(new ConcurrentHashMap<>(), new AtomicLong());
+    }
+
     public ProfileDao(ConcurrentHashMap<Long, Profile> storage, AtomicLong idStorage) {
-        this.storage = new ConcurrentHashMap<>();
-        this.idStorage = new AtomicLong();
+        this.storage = storage;
+        this.idStorage = idStorage;
     }
 
     public Profile save(Profile profile) {
-        long id = idStorage.incrementAndGet();
-        profile.setId(id);
-        storage.put(id, profile);
+        profile.setId(idStorage.incrementAndGet());
+        storage.put(profile.getId(), profile);
+        System.out.println(storage.values());
         return profile;
     }
 

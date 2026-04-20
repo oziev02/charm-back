@@ -2,9 +2,22 @@ package ru.oziev.charm.back.model;
 
 public class Profile {
     private Long id;
+
     private String email;
+
+    private String name;
+
     private String surname;
+
     private String about;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getAbout() {
         return about;
@@ -36,5 +49,16 @@ public class Profile {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Profile{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", surname='" + surname + '\'' +
+                ", about='" + about + '\'' +
+                '}';
     }
 }
