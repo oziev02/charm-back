@@ -13,18 +13,16 @@ public class CharmBackClientRunner {
     public static void main(String[] args) throws IOException, InterruptedException {
         HttpClient httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1).build();
 
-        HttpRequest request = HttpRequest.newBuilder(URI.create("https://www.yandex.ru"))
-                .setHeader("My-Token", "jdkjfafjdfjdf")
-                .POST(HttpRequest.BodyPublishers.ofString("dsa"))
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://localhost:8080"))
+                .GET()
                 .build();
 
-        HttpResponse<String> httpResponse = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
-        Map<String, List<String>> map = httpResponse.headers().map();
-
-        System.out.println(httpResponse.statusCode());
-        System.out.println();
-        System.out.println(map);
-        System.out.println(httpResponse.body());
+        HttpResponse<byte[]> response = httpClient.send(request, HttpResponse.BodyHandlers.ofByteArray());
+        HttpClient.Version version = response.version();
+        int statusCode = response.statusCode();
+        String headers = response.headers().toString();
+        String body = new String(response.body());
+        System.out.println(version + " " + statusCode + "\n" + headers + "\n\n" + body);
     }
 }
