@@ -1,22 +1,18 @@
 package ru.oziev.charm.back;
 
+import ru.oziev.charm.back.controller.LikeController;
 import ru.oziev.charm.back.controller.ProfileController;
 import ru.oziev.charm.back.dao.ProfileDao;
 import ru.oziev.charm.back.service.ProfileService;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
-
-import static ru.oziev.charm.back.model.Commands.*;
-
 public class CharmBackServerRunner {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
+        ProfileController profileController = new ProfileController(new ProfileService(new ProfileDao()));
 
-        ProfileController controller = new ProfileController(new ProfileService(new ProfileDao()));
-        CharmHttpServer server = new CharmHttpServer(5);
-        server.start();
+
+
+        LikeController likeController = new LikeController();
+        CharmHttpServer charmHttpServer = new CharmHttpServer(8080, 5, profileController, likeController);
+        charmHttpServer.start();
     }
 }
